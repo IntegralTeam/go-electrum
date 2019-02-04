@@ -187,3 +187,14 @@ func (n *Node) BlockchainEstimateFee(block int) (float64, error) {
 	err := n.request("blockchain.estimatefee", []string{strconv.Itoa(block)}, resp)
 	return resp.Result, err
 }
+
+// https://electrumx.readthedocs.io/en/latest/protocol-methods.html#blockchain-scripthash-get-balance
+// ScripthashGetBalance retrieves the confirmed and unconfirmed balances of a script hash
+// Replaces address.get_balance in ElectrumX
+func (n *Node) ScripthashGetBalance(scripthash string) (*Balance, error) {
+	resp := &struct {
+		Result *Balance `json:"result"`
+	}{}
+	err := n.request("blockchain.scripthash.get_balance", []string{scripthash}, resp)
+	return resp.Result, err
+}
